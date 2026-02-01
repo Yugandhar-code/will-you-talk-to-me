@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Just One Question 💭</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+        background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+        font-family: 'Segoe UI', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .container {
+        text-align: center;
+        z-index: 2;
+    }
+
+    h1 {
+        font-size: 2.6rem;
+        color: #fff;
+        min-height: 60px;
+    }
+
+    button {
+        padding: 14px 34px;
+        font-size: 18px;
+        border-radius: 30px;
+        border: none;
+        cursor: pointer;
+        margin: 12px;
+    }
+
+    #yes {
+        background: #4CAF50;
+        color: white;
+    }
+
+    #no {
+        background: #ff4d4d;
+        color: white;
+        position: absolute;
+    }
+
+    /* Floating hearts */
+    .heart {
+        position: absolute;
+        color: rgba(255,255,255,0.7);
+        animation: float 6s linear infinite;
+        font-size: 20px;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(100vh); opacity: 1; }
+        100% { transform: translateY(-10vh); opacity: 0; }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1 id="text"></h1>
+    <button id="yes" onclick="yesClicked()">Yes 😊</button>
+    <button id="no">No 🙃</button>
+</div>
+
+<script>
+/* Typing animation */
+const message = "Will you talk to me? 💬";
+let index = 0;
+const textEl = document.getElementById("text");
+
+function typeText() {
+    if (index < message.length) {
+        textEl.textContent += message.charAt(index);
+        index++;
+        setTimeout(typeText, 80);
+    }
+}
+typeText();
+
+/* No button movement */
+const noBtn = document.getElementById("no");
+let speed = 1;
+
+noBtn.addEventListener("mouseover", () => {
+    speed += 0.5;
+    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+    noBtn.style.transition = `all ${0.15 / speed}s`;
+});
+
+/* Yes click */
+function yesClicked() {
+    document.body.innerHTML = `
+        <div style="
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            height:100vh;
+            text-align:center;
+            color:white;
+            font-size:2.4rem;
+        ">
+            💖 Yay!<br>
+            That really means a lot to me 😊
+        </div>
+    `;
+}
+
+/* Floating hearts generator */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💗";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (15 + Math.random() * 20) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 6000);
+}
+
+setInterval(createHeart, 400);
+</script>
+
+</body>
+</html>
